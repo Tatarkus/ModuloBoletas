@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title %} Sonrisa Feliz {% endblock %}
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col md-12">
+      <div class="jumbotron p-3">
+        <h2> Administrar <b>Boletas</b>
+          <form class="form-inline mr-auto float-right" action="{{url_for('buscarBoleta')}}" method="POST">
+  <input class="form-control mr-sm-2" name="buscar" type="text" placeholder="ID BOLETA" aria-label="Search">
+  <button class="btn btn-outline-success btn-rounded btn-sm my-0" type="submit">Buscar</button>
+</form>
+        </h2>
+
+
+        <table class="table table-hover table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Valor</th>
+            <th>Nula</th>
+            <th>Accion</th>
+          </tr>
+          {% for row in boletas %}
+          <tr>
+            <td>{{row.id_boleta}}</td>
+            <td>{{row.rut_cliente}}</td>
+            <td>{{row.fecha}}</td>
+            <td>{{row.valor}}</td>
+            <td>{{row.nula}}</td>
+            <td>
+              <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Seguro que desea anular la boleta?')">Anular<a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
+        <h2>  <button type="button" class="btn btn-success" name="button"
+          data-toggle="modal" data-target="#modalboleta"> Generar Boleta</button>
+        </h2>
+        <h2>  <button type="button" class="btn btn-warning" name="button"
+          data-toggle="modal" data-target="#modalreporte"> Obtener Reporte</button>
+        </h2>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+
+       {% if messages %}
+
+       {% for message in messages %}
+
+       <div class="alert alert-success alert-dismissable" role="alert">
+
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+               <span aria-hidden="true">x</span>
+
+        </button>
+
+
+       {{message}}
+       </div>
+       {% endfor %}
+
+       {% endif %}
+       {% endwith %}
+
+
+      <div id="modalboleta" class="modal fade" role="dialog">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+
+                  <h4 class="modal-title">Nueva Boleta</h4>
+
+               </div>
+
+               <div class="modal-body">
+
+                  <form action="{{url_for('nuevaBoleta')}}" method="POST">
+
+
+                     <div class="form-group">
+
+                        <label>Cliente:</label>
+                        <input type="text" class="form-control" name="cliente" required="1">
+
+
+                     </div>
+
+
+                      <div class="form-group">
+
+
+                        <label>Valor:</label>
+                        <input type="number" class="form-control" name="valor" required="1">
+
+
+                     </div>
+                     <label for="servicios">Servicios:</label>
+
+                      <select id="serviciosdrop" name="servicios_dropdown">
+                        <option value="1">- Destartraje -</option>
+                        <option value="2">- Limpieza -</option>
+                        <option value="3">- Extracción Pieza -</option>
+                        <option value="4">- Endodoncia -</option>
+                      </select>
+
+                     <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Nueva Boleta</button>
+
+                     </div>
+
+
+                  </form>
+
+
+               </div>
+
+
+               <div class="modal-footer">
+
+
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+               </div>
+
+
+            </div>
+
+
+         </div>
+
+
+      </div>
+
+      <div id="modalreporte" class="modal fade" role="dialog">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+
+                  <h4 class="modal-title">Reporte Mensual</h4>
+               </div>
+               <div class="modal-body">
+
+                  <form action="{{url_for('obtenerReporte')}}" method="POST">
+
+
+                     <div class="form-group">
+
+                        <label>Mes:</label>
+                        <input type="number" class="form-control" name="month" required="1">
+
+
+                     </div>
+
+
+                      <div class="form-group">
+
+
+                        <label>Año:</label>
+                        <input type="number" class="form-control" name="year" required="1">
+
+
+                     </div>
+
+                     <div class="form-group">
+
+
+                        <button class="btn btn-primary" type="submit">Obtener</button>
+
+                     </div>
+                     <table class="table table-hover table-light">
+                       <tr>
+                         <th>Fecha</th>
+                         <th>Valor</th>
+                         <th>Mayor Insumo</th>
+                         <th>Mayor Servicio</th>
+                         <th>Cantidad de Boletas</th>
+
+                       </tr>
+                       <tr>
+                         <td>Enero 2020</td>
+                         <td>1805211</td>
+                         <td>Penicilina</td>
+                         <td>Destartraje</td>
+                         <td>54</td>
+                       </tr>
+                     </table>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

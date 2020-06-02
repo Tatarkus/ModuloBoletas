@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title %} Sonrisa Feliz {% endblock %}
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col md-12">
+      <div class="jumbotron p-3">
+        <h2> <b>Reporte</b>
+        </h2>
+
+
+        <table class="table table-hover table-light">
+          <tr>
+            <th>Fecha</th>
+            <th>Valor Total</th>
+            <th>Mayor Insumo</th>
+            <th>Mayor Servicio</th>
+            <th>Cantidad de Boletas</th>
+
+          </tr>
+          <tr>
+
+            <td>{{mes}} de {{anio}}</td>
+            <td>{{reporte.monto_total}}</td>
+            <td>{{reporte.mayor_insumo.nombre_insumo}}</td>
+            <td>{{reporte.mayor_servicio.nombre_servicio}}</td>
+            <td>{{reporte.cantidad_boletas}}</td>
+          </tr>
+        </table>
+
+        <a href="http://localhost:5000" class="btn btn-primary">Volver</a>
+        <script>
+        function myFunction() {
+    window.print();
+}</script>
+        <button class="btn btn-primary hidden-print" onclick="myFunction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir</button>
+</div>
+</div>
+      </div>
+      </div>
+{% endblock %}
