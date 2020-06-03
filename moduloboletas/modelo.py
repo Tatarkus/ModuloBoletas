@@ -1,4 +1,6 @@
 from moduloboletas import db
+from dataclasses import dataclass
+from sqlalchemy import extract
 
 class Cliente(db.Model) :
     rut_cliente = db.Column(db.String(20), primary_key = True)

@@ -1,7 +1,6 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from dataclasses import dataclass
 from sqlalchemy import extract,func
 from datetime import date
 import locale
@@ -15,6 +14,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/sonrisadb.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+from moduloboletas.boletas.boletas import boletas_bp
+from moduloboletas.reportes.reportes import reportes_bp
+app.register_blueprint(boletas_bp,url_prefix='/boletas')
+app.register_blueprint(reportes_bp,url_prefix='/reportes')
+
 @app.route('/')
-def index():
-    return redirect(url_for('index'))
+def root():
+    return redirect(url_for('boletas.index'))
